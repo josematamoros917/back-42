@@ -6,6 +6,13 @@ class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
 
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        categoria_id = self.request.query_params.get('categoria')
+        if categoria_id:
+            queryset = queryset.filter(categoria_id=categoria_id)
+        return queryset
+    
 class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
